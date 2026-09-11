@@ -2,3 +2,18 @@ node_modules
 dist
 release
 *.log
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+
+# Vite cache
+.vite
+
+# Editor / OS cruft
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+Thumbs.db
