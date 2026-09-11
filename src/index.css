@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f7f7f7;
+  --foreground: #151415;
+  --border: #d9d9d7;
+  --muted: #6b6b69;
+  --font-manrope: 'Manrope', sans-serif;
+}
+
+@theme inline {
+  --color-black: #151415;
+  --color-white: #f7f7f7;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+  --color-signal-teal: #1d9e75;
+  --color-signal-amber: #ba7517;
+  --color-signal-red: #e24b4a;
+  --font-sans: var(--font-manrope);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #151415;
+    --foreground: #f7f7f7;
+    --border: #333331;
+    --muted: #9a9a97;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Brush (trend chart zoom scrollbar) range labels — smaller and higher-contrast
+   than recharts' default, which ties this text's color to the brush's stroke. */
+.recharts-brush-texts text {
+  font-size: 10px;
+  fill: var(--foreground);
+}
