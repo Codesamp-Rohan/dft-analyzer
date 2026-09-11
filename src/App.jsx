@@ -29,7 +29,7 @@ function ViewToggle() {
           key={v.key}
           onClick={() => v.available && setActiveView(v.key)}
           disabled={!v.available}
-          className={`px-4 py-2 text-sm sm:text-base font-medium transition-colors ${activeView === v.key
+          className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-base font-medium transition-colors ${activeView === v.key
             ? 'bg-black text-white'
             : v.available
               ? 'hover:bg-black/5'
@@ -53,7 +53,7 @@ function FaceModeToggle() {
         <button
           key={m.key}
           onClick={() => setFaceMode(m.key)}
-          className={`px-4 py-2 text-sm sm:text-base font-medium transition-colors ${faceMode === m.key ? 'bg-black text-white' : 'hover:bg-black/5'
+          className={`px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-base font-medium transition-colors whitespace-nowrap ${faceMode === m.key ? 'bg-black text-white' : 'hover:bg-black/5'
             }`}
         >
           {m.label}
@@ -101,16 +101,16 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Header */}
-      <header className="border-b border-border px-4 py-3 sm:px-8 sm:py-4 flex items-center justify-between">
+      <header className="border-b border-border px-4 py-3 sm:px-8 sm:py-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-base sm:text-lg font-semibold">DFT Analyzer</h1>
-        <div className="flex items-center gap-4">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-4">
           <FaceModeToggle />
           <ViewToggle />
           <button
             onClick={() => setSpecPanelOpen(true)}
             title="Edit spec limits"
             aria-label="Edit spec limits"
-            className="w-9 h-9 flex items-center justify-center border border-border hover:bg-black/5"
+            className="w-9 h-9 shrink-0 flex items-center justify-center border border-border hover:bg-black/5"
           >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <circle cx="12" cy="12" r="3" />
@@ -121,7 +121,7 @@ export default function App() {
       </header>
 
       {/* Main content */}
-      <main className="flex-1 flex flex-col gap-0 p-4 sm:p-8 pb-16 sm:pb-16">
+      <main className="flex-1 flex flex-col gap-0 p-4 sm:p-8 pb-20 sm:pb-16">
         {/* Upload */}
         <UploadPanel />
 
@@ -185,9 +185,11 @@ export default function App() {
       </main>
 
       {/* Footer */}
-      <footer className="fixed bottom-0 inset-x-0 z-10 border-t border-border bg-background px-4 py-4 sm:px-8 flex items-center gap-2 justify-between">
-        <img src={secureLogo} alt="Secure" className="h-7 w-auto" />
-        <span className="text-s text-bold text-muted">Designed & Developed by Projects Team - SND</span>
+      <footer className="fixed bottom-0 inset-x-0 z-10 border-t border-border bg-background px-4 py-2 sm:px-8 sm:py-4 flex flex-col sm:flex-row items-center gap-1 sm:gap-2 justify-center sm:justify-between">
+        <img src={secureLogo} alt="Secure" className="h-5 sm:h-7 w-auto shrink-0" />
+        <span className="text-[10px] sm:text-sm font-medium text-muted text-center">
+          Designed &amp; Developed by Projects Team - SND
+        </span>
       </footer>
 
       <SpecLimitsPanel open={specPanelOpen} onClose={() => setSpecPanelOpen(false)} />

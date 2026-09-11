@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   LineChart,
   Line,
@@ -34,6 +34,20 @@ function ZoomTraveller({ x, y, width, height }) {
 
 export default function TrendChart({ trendData, faceConfig, faceNames }) {
   const [range, setRange] = useState(null) // { startIndex, endIndex } | null = full range
+  const wheelRef = useRef(null)
+  const [chartWidth, setChartWidth] = useState(600)
+
+  useEffect(() => {
+    const el = wheelRef.current
+    if (!el) return
+    const observer = new ResizeObserver((entries) => {
+      const width = entries[0]?.contentRect?.width
+      if (width) setChartWidth(width)
+    })
+    observer.observe(el)
+    return () => observer.disconnect()
+  }, [])
+
   if (!trendData || trendData.length === 0) {
     return (
       <div className="border border-border p-4 sm:p-6">
@@ -65,9 +79,11 @@ export default function TrendChart({ trendData, faceConfig, faceNames }) {
   const endIndex = range?.endIndex ?? total - 1
   const isZoomed = startIndex !== 0 || endIndex !== total - 1
 
-  // For large visible ranges, only show every Nth tick label
+  // Only show every Nth tick label — enough are skipped to keep labels legible
+  // at the chart's actual rendered width (narrow phone screens fit far fewer).
   const visibleCount = endIndex - startIndex + 1
-  const tickInterval = visibleCount > 50 ? Math.floor(visibleCount / 20) : 0
+  const maxTicks = Math.max(3, Math.floor((chartWidth - 40) / 55))
+  const tickInterval = visibleCount > maxTicks ? Math.ceil(visibleCount / maxTicks) : 0
 
   function handleBrushChange(r) {
     if (!r || r.startIndex == null || r.endIndex == null) return
@@ -150,7 +166,7 @@ export default function TrendChart({ trendData, faceConfig, faceNames }) {
           </button>
         </div>
       </div>
-      <div onWheel={handleWheel} title="Scroll to zoom">
+      <div ref={wheelRef} onWheel={handleWheel} title="Scroll to zoom">
         <ResponsiveContainer width="100%" height={280}>
           <LineChart data={trendData} margin={{ top: 5, right: 20, left: 0, bottom: 5 }}>
             <CartesianGrid stroke="var(--border)" strokeDasharray="3 3" />
